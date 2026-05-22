@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Khatarnak Code Runner IDE – Clean</title>
+<style>
+/* ===== COLOR THEME (AS REQUESTED) ===== */
+:root{
+  --bg:#1a2525;          /* Dark Teal/Grey Background */
+  --panel:#141d1d;       /* Header / panels */
+  --editor:#212e2e;      /* Typing area / Card background */
+  --text:#ffffff;        /* White text */
+  --border:#2a3a3a;      /* Subtle border */
+  --run:#ff6b6b;         /* Run button (Coral/Red from Turn On) */
+}*{box-sizing:border-box;font-family:system-ui,-apple-system} html,body{margin:0;padding:0;width:100%;height:100%;background:var(--bg);color:var(--text)}
+
+.screen{display:none;width:100%;height:100%} .screen.active{display:flex;flex-direction:column}
+
+header{ padding:14px; text-align:center; font-weight:700; background:var(--panel); border-bottom:1px solid var(--border); color:#69f0ae }
+
+/* EDITOR SCREEN */ .editor-wrap{flex:1;display:flex;flex-direction:column} .lang-select{padding:12px} select{ width:100%; padding:12px; border-radius:10px; background:var(--editor); color:var(--text); border:1px solid var(--border) } textarea{ flex:1; margin:12px; background:var(--editor); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:12px; font-size:15px } .actions{padding:12px} button{ width:100%; padding:14px; border-radius:14px; border:none; background:var(--run); color:#ffffff; font-weight:800; font-size:16px }
+
+/* RUN SCREEN */ .run-wrap{flex:1;display:flex;flex-direction:column} iframe{flex:1;border:none;background:#f0f4f4} .run-actions{padding:12px;border-top:1px solid var(--border)} .run-actions button{ background:transparent; color:var(--text); border:1px solid var(--border) } </style>
+
+</head>
+<body><div id="screenEditor" class="screen active">
+  <header>Code Play</header>
+  <div class="editor-wrap">
+    <div class="lang-select">
+      <select id="lang">
+        <option value="">Select Language</option>
+        <option value="html">HTML / CSS / JS</option>
+       
+      </select>
+    </div><textarea id="code" placeholder="Yahan apni koi bhi coding likho ya paste karo..."></textarea>
+
+<div class="actions">
+  <button onclick="runCode()">▶ Run Code</button>
+</div>
+
+  </div>
+</div><div id="screenRun" class="screen">
+  <header>Output (Fullscreen)</header>
+  <div class="run-wrap">
+    <iframe id="output"></iframe>
+    <div class="run-actions">
+      <button onclick="goBack()">⟵ Back to Code</button>
+    </div>
+  </div>
+</div><script>
+const screenEditor=document.getElementById('screenEditor');
+const screenRun=document.getElementById('screenRun');
+const code=document.getElementById('code');
+const output=document.getElementById('output');
+const lang=document.getElementById('lang');
+
+function runCode(){
+  if(!lang.value){
+    alert('Pehle language select karo');
+    return;
+  }
+  screenEditor.classList.remove('active');
+  screenRun.classList.add('active');
+
+  if(lang.value==='html'){
+    output.srcdoc = code.value;
+  }else{
+    output.srcdoc = `<pre style='padding:16px;font-size:14px'>Code executed (Preview Mode)\n\nLanguage: ${lang.value}\n\n${code.value}</pre>`;} }
+
+function goBack(){ screenRun.classList.remove('active'); screenEditor.classList.add('active'); } </script>
+
+</body>
+</html>
